@@ -1,0 +1,21 @@
+{
+  "banks": [
+    {
+      "name": "aa",
+      "bankCode": "aa",
+      "districts": [
+        {
+          "name": "BAGERHAT",
+          "districtCode": "01",
+          "branches": [
+            {
+              "name": "MainBranch",
+              "branchCode": "BR001",
+              "routingNumber": "dadaad"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

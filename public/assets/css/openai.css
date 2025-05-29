@@ -1,0 +1,11 @@
+.openai-progress {
+  height: 20px;
+}
+
+.main-content .chatting-panel .msg-type-area form .chat-input {
+  width: calc(100% - 40px);
+}
+
+.swal2-timer-progress-bar {
+  background: #28a745 !important;
+}
