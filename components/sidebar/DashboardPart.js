@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Link from "next/link";
 import { DigiContext } from "../../context/DigiContext";
 import NavLink from "../router/NavLink";
 
@@ -45,22 +44,6 @@ const DashboardPart = () => {
             <span className="sidebar-txt">Bank list</span>
           </NavLink>
         </li>
-        {/* <li className="sidebar-dropdown-item">
-          <NavLink href="/crmDashboard" className="sidebar-link">
-            <span className="nav-icon">
-              <i className="fa-light fa-user-headset"></i>
-            </span>{" "}
-            <span className="sidebar-txt">CRM</span>
-          </NavLink>
-        </li> */}
-        {/* <li className="sidebar-dropdown-item">
-          <NavLink href="/hrmDashboard" className="sidebar-link">
-            <span className="nav-icon">
-              <i className="fa-light fa-user-tie"></i>
-            </span>{" "}
-            <span className="sidebar-txt">HRM</span>
-          </NavLink>
-        </li> */}
       </ul>
     </li>
   );

@@ -66,19 +66,9 @@ const MainSidebar = () => {
       <div className="main-menu">
         {shouldUseOverlayScrollbars ? (
           <OverlayScrollbarsComponent className="sidebar-menu">
-            {/* <DashboardPart /> */}
-            {/* <ComponentsPart /> */}
             <AppsPart />
             <PagesPart />
             <ComponentsPart />
-            {/* {/* <ComponentsPart /> 
-            <li className="help-center">
-              <h3>Help Center</h3>
-              <p>We're an award-winning, forward thinking</p>
-              <Link href="#" className="btn btn-sm btn-light">
-                Go to Help Center
-              </Link>
-            </li> */}
           </OverlayScrollbarsComponent>
         ) : (
           <>
