@@ -44,6 +44,8 @@ export default async function handler(req, res) {
     const command = new CompareFacesCommand(params);
     const response = await client.send(command);
 
+    console.log("CompareFace response:", response);
+
     const faceMatch = response.FaceMatches[0];
 
     return res.status(200).json({
@@ -55,6 +57,10 @@ export default async function handler(req, res) {
     console.error("CompareFace error:", error);
     return res
       .status(500)
-      .json({ success: false, message: "Face comparison failed." });
+      .json({
+        success: false,
+        matched: false,
+        message: "Face comparison failed.",
+      });
   }
 }
