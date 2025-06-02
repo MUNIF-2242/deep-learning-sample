@@ -59,6 +59,17 @@ const ComponentsPart = () => {
             <span className="sidebar-txt">Detect Labels</span>
           </NavLink>
         </li>
+        <li className="sidebar-dropdown-item">
+          <NavLink
+            href="/aws/bedrock/knowledgebase/knowlwdgebase-chat"
+            className="sidebar-link"
+          >
+            <span className="nav-icon">
+              <i className="fa-light fa-table"></i>
+            </span>
+            <span className="sidebar-txt">Bedrock Knowledgebase</span>
+          </NavLink>
+        </li>
       </ul>
     </li>
   );
