@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { IdVerificationContext } from "@/context/IdVerificationContext";
-import BedrockChatingArea from "./ChatingArea";
+import BedrockChatingArea from "./BedrockChatingArea";
 
 const Preview = () => {
   const { uploadedImageUrl } = useContext(IdVerificationContext);

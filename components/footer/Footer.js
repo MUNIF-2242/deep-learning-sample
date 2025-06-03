@@ -1,10 +1,12 @@
 import React from "react";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear(); // 👈 get dynamic year
+
   return (
     <div className="footer">
       <p>
-        Copyright© 2024 All Rights Reserved By{" "}
+        Copyright© {currentYear} All Rights Reserved By{" "}
         <span className="text-primary">shellbeehaken</span>
       </p>
     </div>

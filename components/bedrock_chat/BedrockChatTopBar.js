@@ -23,13 +23,11 @@ const BedrockChatTopBar = () => {
           <button className="back-to-all-chat btn-flush fs-14 d-md-none">
             <i className="fa-light fa-arrow-left"></i>
           </button>
-          <div className="avatar">
-            {/* <img src="/assets/images/avatar-2.png" alt="User" /> */}
-            {/* <img src={selectedOption.image} alt="User" width={35} height={35} /> */}
-          </div>
+
           <div className="part-txt">
-            <span className="user-name">{selectedOption.title}</span>
-            <span className="active-status active">Active Now</span>
+            <span className="user-name">
+              Chat with AI based on your uploaded knowledgebase
+            </span>
           </div>
         </div>
         <div className="chatting-panel-top-btns">

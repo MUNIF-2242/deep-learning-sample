@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
 
 const BedrockMessageInput = () => {
-  const { inputMessage, setInputMessage, handleSubmit } = useContext(
+  const { inputMessage, setInputMessage, handleSubmit, loading } = useContext(
     IdVerificationContext
   );
   return (
@@ -17,7 +17,7 @@ const BedrockMessageInput = () => {
           id="chat-input"
           placeholder="Type your message..."
           value={inputMessage}
-          //disabled={isConversationEnded}
+          disabled={loading}
           onChange={(e) => setInputMessage(e.target.value)}
         />
 

@@ -5,9 +5,8 @@ import Head from "next/head";
 
 import { useSession } from "next-auth/react";
 import Footer from "@/components/footer/Footer";
-import AthleteList from "@/components/bedrock_chat/AthleteList";
-import ChatingArea from "@/components/bedrock_chat/ChatingArea";
-import AthleteChatSidebar from "@/components/bedrock_chat/AthleteChatSidebar";
+import BedrockChatingArea from "@/components/bedrock_chat/BedrockChatingArea";
+import BedrockChatSidebar from "@/components/bedrock_chat/AthleteChatSidebar";
 
 const ChatMainContent = () => {
   const { data: session, status } = useSession(); // Get session and status
@@ -41,9 +40,9 @@ const ChatMainContent = () => {
             </div>
 
             <div className="panel position-relative bedrock-custom-panel">
-              <ChatingArea />
+              <BedrockChatingArea />
             </div>
-            <AthleteChatSidebar />
+            <BedrockChatSidebar />
           </div>
         </div>
 
