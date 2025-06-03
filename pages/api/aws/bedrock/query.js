@@ -77,7 +77,7 @@ Assistant:`;
         modelId: "anthropic.claude-v2",
         body: JSON.stringify({
           prompt: prompt,
-          max_tokens_to_sample: 10,
+          max_tokens_to_sample: 100,
           temperature: 0.7,
         }),
         accept: "application/json",
