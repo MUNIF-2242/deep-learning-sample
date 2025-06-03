@@ -1,6 +1,7 @@
 import * as formidable from "formidable";
 import fs from "fs";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import pdfParse from "pdf-parse"; // <--- Import the PDF parser
 
 const s3 = new S3Client({
   region: process.env.REGION_AWS,
@@ -34,10 +35,6 @@ export default async function handler(req, res) {
       });
     });
 
-    console.log("Parsed Fields:", fields);
-    console.log("Parsed Files:", files);
-
-    // Adjust file key: sometimes it's an array
     let uploadedFile = files.file;
     if (Array.isArray(uploadedFile)) {
       uploadedFile = uploadedFile[0];
@@ -47,11 +44,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "No file uploaded." });
     }
 
-    console.log("Uploaded File:", uploadedFile);
-
     if (
       uploadedFile.mimetype !== "application/pdf" &&
-      uploadedFile.mimetype !== "application/octet-stream" // fallback if mimetype missing
+      uploadedFile.mimetype !== "application/octet-stream"
     ) {
       return res
         .status(400)
@@ -59,6 +54,16 @@ export default async function handler(req, res) {
     }
 
     const fileBuffer = fs.readFileSync(uploadedFile.filepath);
+
+    // 📝 Step 1: Extract text using pdf-parse
+    const pdfData = await pdfParse(fileBuffer);
+
+    // You can access text content like this:
+    const extractedText = pdfData.text;
+
+    console.log("Extracted Text:", extractedText);
+
+    // 🗃️ Step 2: Upload the file to S3 (as you already do)
     const timestamp = new Date().toISOString().replace(/[:.-]/g, "");
     const fileName = `doc-${timestamp}.pdf`;
     const bucketName = process.env.S3_BUCKET_NAME;
@@ -74,11 +79,14 @@ export default async function handler(req, res) {
     await s3.send(command);
 
     const fileUrl = `https://${bucketName}.s3.${process.env.REGION_AWS}.amazonaws.com/${fileName}`;
+
     console.log("File uploaded successfully:", fileUrl);
 
+    // 📨 Step 3: Return both file URL and extracted text
     return res.status(200).json({
       success: true,
       fileUrl,
+      extractedText, // Include the extracted text in the response
     });
   } catch (error) {
     console.error("Error in upload handler:", error);
