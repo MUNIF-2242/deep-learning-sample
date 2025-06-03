@@ -8,6 +8,7 @@ export const IdVerificationProvider = ({ children }) => {
   const [uploadedTradeLicenseImageUrl, setUploadedTradeLicenseImageUrl] =
     useState("");
   const [inputMessage, setInputMessage] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const handleSubmit = async (e) => {
     console.log("handleSubmit called with inputMessage:", inputMessage);
@@ -30,8 +31,8 @@ export const IdVerificationProvider = ({ children }) => {
         console.error("API error:", data.message);
         alert("Something went wrong while fetching results.");
       } else {
-        console.log("Results:", data.results);
-        // 🔥 Optionally update context or state with the results here!
+        console.log("Answer:", data.answer);
+        setAnswer(data.answer);
       }
 
       setInputMessage("");
@@ -45,7 +46,7 @@ export const IdVerificationProvider = ({ children }) => {
       value={{
         uploadedImageUrl,
         setUploadedImageUrl,
-
+        answer,
         uploadedTradeLicenseImageUrl,
         setUploadedTradeLicenseImageUrl,
         setUploadedNidImageUrl,
