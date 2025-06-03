@@ -1,24 +1,14 @@
-import { useOpenAIContext } from "@/context/OpenAIContext";
-import React from "react";
+import { IdVerificationContext } from "@/context/IdVerificationContext";
+import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
 
 const AthleteMessageInput = () => {
-  const { inputMessage, setInputMessage, handleSubmit, isConversationEnded } =
-    useOpenAIContext();
+  const { inputMessage, setInputMessage, handleSubmit } = useContext(
+    IdVerificationContext
+  );
   return (
     <div className="panel-body msg-type-area">
       <form onSubmit={handleSubmit}>
-        {/* <label
-          className="btn btn-icon btn-outline-primary"
-          htmlFor="chatAttachment"
-        >
-          <i className="fa-light fa-link"></i>
-        </label>
-        <Form.Control
-          type="file"
-          className="chat-attachment"
-          id="chatAttachment"
-        /> */}
         <Form.Control
           autoComplete="off"
           type="text"
@@ -27,7 +17,7 @@ const AthleteMessageInput = () => {
           id="chat-input"
           placeholder="Type your message..."
           value={inputMessage}
-          disabled={isConversationEnded}
+          //disabled={isConversationEnded}
           onChange={(e) => setInputMessage(e.target.value)}
         />
 

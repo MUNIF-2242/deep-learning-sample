@@ -7,18 +7,37 @@ export const IdVerificationProvider = ({ children }) => {
   const [uploadedNidImageUrl, setUploadedNidImageUrl] = useState("");
   const [uploadedTradeLicenseImageUrl, setUploadedTradeLicenseImageUrl] =
     useState("");
+  const [inputMessage, setInputMessage] = useState("");
 
-  // 🟢 Dropdown expand/collapse logic from old DigiContext
-  const [dropdowns, setDropdowns] = useState({
-    openAI: false,
-    cloudVision: false,
-  });
+  const handleSubmit = async (e) => {
+    console.log("handleSubmit called with inputMessage:", inputMessage);
+    e.preventDefault();
 
-  const toggleDropdown = (key) => {
-    setDropdowns((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
+    if (!inputMessage.trim()) return;
+
+    try {
+      const response = await fetch("/api/aws/bedrock/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: inputMessage }),
+      });
+
+      const data = await response.json();
+
+      console.log("API response:", data);
+
+      if (!response.ok) {
+        console.error("API error:", data.message);
+        alert("Something went wrong while fetching results.");
+      } else {
+        console.log("Results:", data.results);
+        // 🔥 Optionally update context or state with the results here!
+      }
+
+      setInputMessage("");
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
   };
 
   return (
@@ -26,12 +45,14 @@ export const IdVerificationProvider = ({ children }) => {
       value={{
         uploadedImageUrl,
         setUploadedImageUrl,
-        dropdowns,
-        toggleDropdown,
+
         uploadedTradeLicenseImageUrl,
         setUploadedTradeLicenseImageUrl,
         setUploadedNidImageUrl,
         uploadedNidImageUrl,
+        handleSubmit,
+        inputMessage,
+        setInputMessage,
       }}
     >
       {children}

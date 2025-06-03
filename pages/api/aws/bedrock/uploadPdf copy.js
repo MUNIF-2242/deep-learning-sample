@@ -1,12 +1,10 @@
 import * as formidable from "formidable";
 import fs from "fs";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import pdfParse from "pdf-parse";
 import {
-  BedrockRuntimeClient,
-  InvokeModelCommand,
-} from "@aws-sdk/client-bedrock-runtime";
-import { connectToDatabase } from "@/mongodbMiddleware";
+  BedrockAgentClient,
+  CreateKnowledgeBaseCommand,
+} from "@aws-sdk/client-bedrock-agent";
 
 const s3 = new S3Client({
   region: process.env.REGION_AWS,
@@ -16,7 +14,7 @@ const s3 = new S3Client({
   },
 });
 
-const bedrock = new BedrockRuntimeClient({
+const bedrock = new BedrockAgentClient({
   region: process.env.REGION_AWS,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID_AWS,
@@ -26,7 +24,7 @@ const bedrock = new BedrockRuntimeClient({
 
 export const config = {
   api: {
-    bodyParser: false, // Disable default body parsing
+    bodyParser: false,
   },
 };
 
@@ -36,18 +34,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { db } = await connectToDatabase();
-    const collection = db.collection("documents");
-
     const form = new formidable.IncomingForm();
 
     const { fields, files } = await new Promise((resolve, reject) => {
       form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
-        else resolve({ fields, files });
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ fields, files });
+        }
       });
     });
 
+    console.log("Parsed Fields:", fields);
+    console.log("Parsed Files:", files);
+
+    // Adjust file key: sometimes it's an array
     let uploadedFile = files.file;
     if (Array.isArray(uploadedFile)) {
       uploadedFile = uploadedFile[0];
@@ -57,9 +59,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "No file uploaded." });
     }
 
+    // console.log("Uploaded File:", uploadedFile);
+
     if (
       uploadedFile.mimetype !== "application/pdf" &&
-      uploadedFile.mimetype !== "application/octet-stream"
+      uploadedFile.mimetype !== "application/octet-stream" // fallback if mimetype missing
     ) {
       return res
         .status(400)
@@ -67,12 +71,6 @@ export default async function handler(req, res) {
     }
 
     const fileBuffer = fs.readFileSync(uploadedFile.filepath);
-
-    // Extract text from the PDF
-    const pdfData = await pdfParse(fileBuffer);
-    const extractedText = pdfData.text;
-
-    // Upload to S3
     const timestamp = new Date().toISOString().replace(/[:.-]/g, "");
     const fileName = `doc-${timestamp}.pdf`;
     const bucketName = process.env.S3_BUCKET_NAME;
@@ -88,39 +86,16 @@ export default async function handler(req, res) {
     await s3.send(command);
 
     const fileUrl = `https://${bucketName}.s3.${process.env.REGION_AWS}.amazonaws.com/${fileName}`;
+    console.log("File uploaded successfully:", fileUrl);
 
-    // Generate embedding with Bedrock
-    const embeddingResponse = await bedrock.send(
-      new InvokeModelCommand({
-        modelId: "amazon.titan-embed-text-v1",
-        body: JSON.stringify({ inputText: extractedText }),
-        accept: "application/json",
-        contentType: "application/json",
-      })
-    );
-
-    const embedding = JSON.parse(
-      Buffer.from(embeddingResponse.body).toString("utf-8")
-    ).embedding;
-
-    // Store document metadata in MongoDB
-    await collection.insertOne({
-      fileName,
-      fileUrl,
-      extractedText,
-      embedding,
-      uploadedAt: new Date(),
-    });
-
-    // Return response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       fileUrl,
-      extractedText,
     });
   } catch (error) {
     console.error("Error in upload handler:", error);
-    res.status(500).json({
+    res.setHeader("Content-Type", "application/json");
+    return res.status(500).json({
       message: "An error occurred while uploading the file.",
       error: error.message,
     });
