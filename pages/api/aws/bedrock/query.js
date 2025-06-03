@@ -52,36 +52,36 @@ export default async function handler(req, res) {
       ])
       .toArray();
 
-    // console.log("Retrieved documents:", results);
-
-    // Step 3: Build context for the Foundation Model
+    // Step 3: Build context from knowledge base
     const contextText = results
       .map((doc, index) => `Document ${index + 1}: ${doc.extractedText}`)
       .join("\n\n");
 
-    // Step 4: Use Foundation Model (Claude) to generate an answer
-    const prompt = `
-\n\nSystem: You are a helpful assistant who uses only the provided knowledge base context to answer questions. If the answer is not in the context, say you don't know.
-
-\n\nHuman: Use the following context to answer the question:
-
-Context:
-${contextText}
-
-Question: ${query}
-
-Assistant:`;
-
+    // Step 4: Use Claude with messages format
     const generationResponse = await bedrock.send(
       new InvokeModelCommand({
-        modelId: "anthropic.claude-v2",
-        body: JSON.stringify({
-          prompt: prompt,
-          max_tokens_to_sample: 100,
-          temperature: 0.7,
-        }),
+        modelId: "anthropic.claude-3-haiku-20240307-v1:0",
         accept: "application/json",
         contentType: "application/json",
+        body: JSON.stringify({
+          anthropic_version: "bedrock-2023-05-31",
+          max_tokens: 100,
+          temperature: 0.7,
+          top_k: 250,
+          top_p: 0.999,
+          stop_sequences: [],
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: `You are a helpful assistant who uses only the provided knowledge base context to answer questions. If the answer is not in the context, say you don't know.\n\nUse the following context to answer the question:\n\nContext:\n${contextText}\n\nQuestion: ${query}`,
+                },
+              ],
+            },
+          ],
+        }),
       })
     );
 
@@ -89,14 +89,13 @@ Assistant:`;
       Buffer.from(generationResponse.body).toString("utf-8")
     );
 
-    const answer = generationOutput.completion;
+    // The response format may vary slightly (Claude 3 often uses 'content' instead of 'completion')
+    const answer = generationOutput.content?.[0]?.text || "No answer found.";
 
     const messages = [
       { role: "user", content: query },
       { role: "assistant", content: answer },
     ];
-
-    //console.log("Generated answer:", messages);
 
     return res.status(200).json({ messages });
   } catch (error) {
