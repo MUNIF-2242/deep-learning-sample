@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const EXPIRATION_TIME = 10 * 60; // Set to 10 minutes (600 seconds)
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
