@@ -3,7 +3,7 @@ import { DigiContext } from "../../context/DigiContext";
 import Link from "next/link";
 import { useOpenAIContext } from "@/context/OpenAIContext";
 
-const AthleteChatTopBar = () => {
+const BedrockChatTopBar = () => {
   const {
     handleSearchInChat,
     searchInChat,
@@ -65,4 +65,4 @@ const AthleteChatTopBar = () => {
   );
 };
 
-export default AthleteChatTopBar;
+export default BedrockChatTopBar;

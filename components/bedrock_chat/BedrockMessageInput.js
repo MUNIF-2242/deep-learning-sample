@@ -2,7 +2,7 @@ import { IdVerificationContext } from "@/context/IdVerificationContext";
 import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
 
-const AthleteMessageInput = () => {
+const BedrockMessageInput = () => {
   const { inputMessage, setInputMessage, handleSubmit } = useContext(
     IdVerificationContext
   );
@@ -29,4 +29,4 @@ const AthleteMessageInput = () => {
   );
 };
 
-export default AthleteMessageInput;
+export default BedrockMessageInput;

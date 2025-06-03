@@ -40,7 +40,7 @@ const ChatMainContent = () => {
               <div className="panel-body border-bottom panelbody-openai"></div>
             </div>
 
-            <div className="panel position-relative">
+            <div className="panel position-relative bedrock-custom-panel">
               <ChatingArea />
             </div>
             <AthleteChatSidebar />

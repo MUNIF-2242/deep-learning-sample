@@ -8,14 +8,17 @@ export const IdVerificationProvider = ({ children }) => {
   const [uploadedTradeLicenseImageUrl, setUploadedTradeLicenseImageUrl] =
     useState("");
   const [inputMessage, setInputMessage] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    console.log("handleSubmit called with inputMessage:", inputMessage);
     e.preventDefault();
-
     if (!inputMessage.trim()) return;
 
+    const userMessage = { role: "user", content: inputMessage };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setInputMessage("");
+    setLoading(true);
     try {
       const response = await fetch("/api/aws/bedrock/query", {
         method: "POST",
@@ -25,19 +28,20 @@ export const IdVerificationProvider = ({ children }) => {
 
       const data = await response.json();
 
-      console.log("API response:", data);
-
       if (!response.ok) {
         console.error("API error:", data.message);
         alert("Something went wrong while fetching results.");
       } else {
-        console.log("Answer:", data.answer);
-        setAnswer(data.answer);
+        // Filter out duplicate user message if API echoes it
+        const newMessages = data.messages.filter(
+          (msg) => !(msg.role === "user" && msg.content === inputMessage)
+        );
+        setMessages((prevMessages) => [...prevMessages, ...newMessages]);
       }
-
-      setInputMessage("");
     } catch (error) {
       console.error("Fetch error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,7 +50,7 @@ export const IdVerificationProvider = ({ children }) => {
       value={{
         uploadedImageUrl,
         setUploadedImageUrl,
-        answer,
+        messages,
         uploadedTradeLicenseImageUrl,
         setUploadedTradeLicenseImageUrl,
         setUploadedNidImageUrl,
@@ -54,6 +58,7 @@ export const IdVerificationProvider = ({ children }) => {
         handleSubmit,
         inputMessage,
         setInputMessage,
+        loading,
       }}
     >
       {children}

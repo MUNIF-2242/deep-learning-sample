@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       ])
       .toArray();
 
-    console.log("Retrieved documents:", results);
+    // console.log("Retrieved documents:", results);
 
     // Step 3: Build context for the Foundation Model
     const contextText = results
@@ -77,7 +77,7 @@ Assistant:`;
         modelId: "anthropic.claude-v2",
         body: JSON.stringify({
           prompt: prompt,
-          max_tokens_to_sample: 200,
+          max_tokens_to_sample: 10,
           temperature: 0.7,
         }),
         accept: "application/json",
@@ -91,7 +91,14 @@ Assistant:`;
 
     const answer = generationOutput.completion;
 
-    return res.status(200).json({ answer });
+    const messages = [
+      { role: "user", content: query },
+      { role: "assistant", content: answer },
+    ];
+
+    //console.log("Generated answer:", messages);
+
+    return res.status(200).json({ messages });
   } catch (error) {
     console.error("Error in query handler:", error);
     return res.status(500).json({

@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 
 import { IdVerificationContext } from "@/context/IdVerificationContext";
-import ChatingArea from "./ChatingArea";
-import AthleteChatSidebar from "./AthleteChatSidebar";
+import BedrockChatingArea from "./ChatingArea";
 
 const Preview = () => {
   const { uploadedImageUrl } = useContext(IdVerificationContext);
@@ -21,7 +20,7 @@ const Preview = () => {
               </div>
 
               <div className="panel position-relative">
-                <ChatingArea />
+                <BedrockChatingArea />
               </div>
             </div>
           </div>

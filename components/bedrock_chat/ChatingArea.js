@@ -1,16 +1,16 @@
 import React from "react";
-import AthleteChatTopBar from "./AthleteChatTopBar";
-import AthleteMessageArea from "./AthleteMessageArea";
-import AthleteMessageInput from "./AthleteMessageInput";
+import BedrockMessageArea from "./BedrockMessageArea";
+import BedrockMessageInput from "./BedrockMessageInput";
+import BedrockChatTopBar from "./BedrockChatTopBar";
 
-const ChatingArea = () => {
+const BedrockChatingArea = () => {
   return (
     <div className="chatting-area">
-      <AthleteChatTopBar />
-      <AthleteMessageArea />
-      <AthleteMessageInput />
+      <BedrockChatTopBar />
+      <BedrockMessageArea />
+      <BedrockMessageInput />
     </div>
   );
 };
 
-export default ChatingArea;
+export default BedrockChatingArea;

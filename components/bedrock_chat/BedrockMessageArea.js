@@ -1,18 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { useOpenAIContext } from "@/context/OpenAIContext";
+import { IdVerificationContext } from "@/context/IdVerificationContext";
 
-const AthleteMessageArea = () => {
-  const { messages, selectedOption, resetConversation, isConversationEnded } =
-    useOpenAIContext();
-  const scrollRef = useRef(null); // Ref for the scrollable area
+const BedrockMessageArea = () => {
+  const { messages, loading } = useContext(IdVerificationContext);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
-      // Scroll to the last message
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight; // Scroll to the bottom
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, loading]); // 👈 Add `loading` here too
 
   return (
     <div className="panel-body msg-area" id="my-cellibrity-chat-area">
@@ -26,12 +24,12 @@ const AthleteMessageArea = () => {
         }}
       >
         <div
-          ref={scrollRef} // Attach the ref here
+          ref={scrollRef}
           className="scrollable main-chat-area"
-          style={{ maxHeight: "900px", overflowY: "auto" }} // Set max height and overflow
+          style={{ maxHeight: "900px", overflowY: "auto" }}
         >
           {messages
-            .filter((message) => message.role !== "system") // Exclude system messages
+            .filter((message) => message.role !== "system")
             .map((message, index) => {
               if (message.role === "user") {
                 return (
@@ -73,7 +71,7 @@ const AthleteMessageArea = () => {
                   >
                     <div className="avatar">
                       <img
-                        src={selectedOption.image}
+                        src="/assets/images/robot-44.png"
                         alt="Assistant Avatar"
                         width={35}
                         height={35}
@@ -95,16 +93,34 @@ const AthleteMessageArea = () => {
               }
               return null;
             })}
-          <div ref={scrollRef} />
-          {isConversationEnded && (
-            <div className="d-flex justify-content-center mt-2">
-              <button
-                type="button"
-                className="btn bg-success-subtle mb-20"
-                onClick={resetConversation}
-              >
-                Try again
-              </button>
+          {loading && (
+            <div
+              className="single-message"
+              style={{ justifyContent: "flex-start", textAlign: "left" }}
+            >
+              <div className="avatar">
+                <img
+                  src="/assets/images/robot-44.png"
+                  alt="Assistant Avatar"
+                  width={35}
+                  height={35}
+                />
+              </div>
+              <div className="msg-box">
+                <div className="msg-box-inner">
+                  <div className="msg-option">
+                    <span className="msg-time">now</span>
+                    <button className="btn-flush">
+                      <i className="fa-light fa-ellipsis-vertical"></i>
+                    </button>
+                  </div>
+                  <div className="bouncing-loader">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -113,4 +129,4 @@ const AthleteMessageArea = () => {
   );
 };
 
-export default AthleteMessageArea;
+export default BedrockMessageArea;
