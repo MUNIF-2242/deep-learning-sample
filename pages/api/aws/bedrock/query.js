@@ -65,7 +65,7 @@ export default async function handler(req, res) {
         contentType: "application/json",
         body: JSON.stringify({
           anthropic_version: "bedrock-2023-05-31",
-          max_tokens: 100,
+          max_tokens: 500, // Increased token limit to reduce truncation risk
           temperature: 0.7,
           top_k: 250,
           top_p: 0.999,
@@ -76,7 +76,21 @@ export default async function handler(req, res) {
               content: [
                 {
                   type: "text",
-                  text: `You are a helpful assistant who uses only the provided knowledge base context to answer questions. If the answer is not in the context, say you don't know.\n\nUse the following context to answer the question:\n\nContext:\n${contextText}\n\nQuestion: ${query}`,
+                  text: `
+    You are a helpful assistant. Please follow these instructions carefully:
+    
+    1. First, check the provided context below. If you find the answer there, use that context to answer the question as thoroughly as possible.
+    
+    2. If you cannot find the answer in the context, please say: "I couldn't find the answer in the provided documents, but here is a concise answer based on my own knowledge." Then provide a short, helpful answer.
+    
+    3. Keep your answer under 50 words. However, always complete your answer fully—do not cut your answer short or truncate it, even if it approaches the token limit.
+    
+    Here is the context:
+    ${contextText}
+    
+    Question:
+    ${query}
+                  `,
                 },
               ],
             },
