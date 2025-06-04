@@ -5,7 +5,6 @@ import HeaderNotification from "./HeaderNotification";
 import HeaderProfile from "./HeaderProfile";
 import Calculator from "./Calculator";
 import Link from "next/link";
-
 const Header = () => {
   const {
     isExpanded,
@@ -43,8 +42,8 @@ const Header = () => {
                 <img
                   src={`${
                     isLightTheme
-                      ? "/assets/images/openai.png"
-                      : "/assets/images/openai.png"
+                      ? "/assets/images/ai-projects-logo.png"
+                      : "/assets/images/ai-projects-logo.png"
                   }`}
                   alt="Logo"
                 />
@@ -73,13 +72,13 @@ const Header = () => {
           {isLightTheme ? (
             <div className="mobile-logo">
               <Link href="/">
-                <img src="/assets/images/openai.png" alt="Logo" />
+                <img src="/assets/images/ai-projects-logo.png" alt="Logo" />
               </Link>
             </div>
           ) : (
             <div className="mobile-logo">
               <Link href="/">
-                <img src="/assets/images/openai.png" alt="Logo" />
+                <img src="/assets/images/ai-projects-logo.png" alt="Logo" />
               </Link>
             </div>
           )}

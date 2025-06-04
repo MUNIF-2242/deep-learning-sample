@@ -477,7 +477,7 @@ const DigiContextProvider = ({ children }) => {
 
   // Retrieve the initial state from localStorage or set it to false
   const initialState = {
-    isMainDropdownOpen: false,
+    isMainDropdownOpen: true,
     isCrmDropdownOpen: false,
     isHrmDropdownOpen: false,
     isEcommerceDropdownOpen: false,
@@ -793,7 +793,7 @@ const DigiContextProvider = ({ children }) => {
 
   // Pages part
   const initialPagesState = {
-    isMainDropdownOpen: false,
+    isMainDropdownOpen: true,
     isSubDropdownOpen: false,
     authentication: false,
     error: false,

@@ -83,7 +83,7 @@ const AddNewDoc = () => {
 
   return (
     <>
-      <div className="col-xxl-4 col-md-5">
+      <div className="col-xxl-12 col-md-5">
         <div className="panel">
           <div className="panel-header">
             <h5>Upload PDF Document</h5>
@@ -119,14 +119,14 @@ const AddNewDoc = () => {
 
         {/* Success Panel */}
         {result && (
-          <div className="panel mt-4">
+          <>
             <div className="panel-header">
               <h5>Success</h5>
             </div>
             <div className="panel-body">
               <div className="bg-success-subtle p-3 rounded">{result}</div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Error Panel */}

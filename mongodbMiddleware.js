@@ -25,3 +25,19 @@ export async function connectToDatabase() {
   cachedDb = cachedClient.db("knowledgebase");
   return { client: cachedClient, db: cachedDb };
 }
+
+/*
+For atlas search json view
+
+{
+  "fields": [
+    {
+      "numDimensions": 1536,
+      "path": "embedding",
+      "similarity": "cosine",
+      "type": "vector"
+    }
+  ]
+}
+
+*/
