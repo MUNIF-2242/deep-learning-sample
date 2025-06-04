@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 
 const bedrock = new BedrockRuntimeClient({
-  region: process.env.REGION_AWS,
+  region: process.env.REGION_BEDROCK_AWS,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID_AWS,
     secretAccessKey: process.env.SECRET_ACCESS_KEY_AWS,
