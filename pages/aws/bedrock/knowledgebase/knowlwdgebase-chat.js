@@ -16,7 +16,7 @@ const ChatMainContent = () => {
     if (status === "loading") return; // Do nothing while loading
     if (!session) {
       // Redirect to login if not authenticated
-      router.push("/openai/openAILogin"); // Use router.push for redirection
+      router.push("/login"); // Use router.push for redirection
     }
   }, [session, status, router]); // Add router to dependencies
 

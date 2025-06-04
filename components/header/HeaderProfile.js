@@ -124,7 +124,7 @@ const HeaderProfile = () => {
               </Link>
             </li> */}
             <li>
-              <Link className="dropdown-item" href="/openai/openAILogin">
+              <Link className="dropdown-item" href="/login">
                 <span className="dropdown-icon">
                   <i className="fa-regular fa-arrow-right-from-bracket"></i>
                 </span>{" "}

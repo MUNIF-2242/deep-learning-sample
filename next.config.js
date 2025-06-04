@@ -14,7 +14,8 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/openai/openAILogin",
+        // destination: "/openai/openAILogin",
+        destination: "/login",
         permanent: true, // Set to 'false' for a temporary redirect
       },
     ];

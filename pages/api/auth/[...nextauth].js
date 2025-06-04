@@ -31,7 +31,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/openai/openAILogin",
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",

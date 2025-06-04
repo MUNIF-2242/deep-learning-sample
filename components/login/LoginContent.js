@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import Footer from '../footer/Footer';
-import Link from 'next/link'
-import { DigiContext } from '../../context/DigiContext';
+import React, { useContext } from "react";
+import Footer from "../footer/Footer";
+import Link from "next/link";
+import { DigiContext } from "../../context/DigiContext";
 
 const LoginContent = () => {
- const {passwordVisible, togglePasswordVisibility} = useContext(DigiContext)
+  const { passwordVisible, togglePasswordVisibility } = useContext(DigiContext);
 
   return (
     <div className="main-content login-panel">
@@ -35,7 +35,7 @@ const LoginContent = () => {
                 <i className="fa-regular fa-lock"></i>
               </span>
               <input
-                type={passwordVisible ? 'text' : 'password'}
+                type={passwordVisible ? "text" : "password"}
                 className="form-control rounded-end"
                 placeholder="Password"
               />
