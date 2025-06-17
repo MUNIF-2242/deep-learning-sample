@@ -7,11 +7,11 @@ const MySwal = withReactContent(Swal);
 export const RagChatbotContext = createContext();
 
 export const RagChatbotProvider = ({ children }) => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploadedPdfResponse, setUploadPdfResponse] = useState(null);
+  const [uploadedPdfUrl, setUploadedPdfUrl] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [uploadedPdfUrl, setUploadedPdfUrl] = useState([]);
-  const [response, setResponse] = useState(null);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -48,8 +48,7 @@ export const RagChatbotProvider = ({ children }) => {
       );
 
       const data = await res.json();
-      console.log("Lambda response:", data);
-      setResponse(data);
+      setUploadPdfResponse(data);
 
       if (!res.ok || data.successfulUploads === 0) {
         setError(data.message || "Upload failed");
@@ -87,7 +86,7 @@ export const RagChatbotProvider = ({ children }) => {
         loading,
         handleFileChange,
         error,
-        response,
+        uploadedPdfResponse,
       }}
     >
       {children}

@@ -1,16 +1,9 @@
-import { RagChatbotContext } from "@/context/RagChatbotContext";
 import React, { useContext } from "react";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import "sweetalert2/dist/sweetalert2.min.css";
-
-const MySwal = withReactContent(Swal);
+import { RagChatbotContext } from "@/context/RagChatbotContext";
 
 const AddNewDoc = () => {
   const { handleSubmit, handleFileChange, error, loading, uploadedPdfUrl } =
     useContext(RagChatbotContext);
-
-  console.log("AddNewDoc component rendered" + uploadedPdfUrl);
 
   return (
     <div className="col-xxl-12 col-md-5">
