@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useContext } from "react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-import { IdVerificationContext } from "@/context/IdVerificationContext";
+import { RagChatbotContext } from "@/context/RagChatbotContext";
 
 const RagMessageArea = () => {
-  const { messages, loading } = useContext(IdVerificationContext);
+  const { messages, loading } = useContext(RagChatbotContext);
   const scrollRef = useRef(null);
 
   useEffect(() => {

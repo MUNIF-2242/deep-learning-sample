@@ -1,14 +1,13 @@
-import { IdVerificationContext } from "@/context/IdVerificationContext";
+import { RagChatbotContext } from "@/context/RagChatbotContext";
 import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
 
 const RagMessageInput = () => {
-  const { inputMessage, setInputMessage, handleSubmit, loading } = useContext(
-    IdVerificationContext
-  );
+  const { inputMessage, setInputMessage, handleQuerySubmit, loading } =
+    useContext(RagChatbotContext);
   return (
     <div className="panel-body msg-type-area">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleQuerySubmit}>
         <Form.Control
           autoComplete="off"
           type="text"
