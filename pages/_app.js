@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { OpenAIContextProvider } from "@/context/OpenAIContext";
 import { SessionProvider } from "next-auth/react"; // Import SessionProvider
 import { IdVerificationProvider } from "@/context/IdVerificationContext";
+import { RagChatbotProvider } from "@/context/RagChatbotContext";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -52,20 +53,22 @@ export default function App({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps.session}>
       {/* Wrap with SessionProvider */}
-      <IdVerificationProvider>
-        <DigiContextProvider>
-          <OpenAIContextProvider>
-            {shouldUseLayout ? (
-              <Layout>
+      <RagChatbotProvider>
+        <IdVerificationProvider>
+          <DigiContextProvider>
+            <OpenAIContextProvider>
+              {shouldUseLayout ? (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              ) : (
                 <Component {...pageProps} />
-              </Layout>
-            ) : (
-              <Component {...pageProps} />
-            )}
-            <ToastContainer />
-          </OpenAIContextProvider>
-        </DigiContextProvider>
-      </IdVerificationProvider>
+              )}
+              <ToastContainer />
+            </OpenAIContextProvider>
+          </DigiContextProvider>
+        </IdVerificationProvider>
+      </RagChatbotProvider>
     </SessionProvider>
   );
 }

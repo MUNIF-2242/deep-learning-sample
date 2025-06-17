@@ -6,7 +6,6 @@ const PagesPart = () => {
   const {
     pagesState,
     toggleMainPagesDropdown,
-
     layoutPosition,
     dropdownOpen,
     mainPagesRef,
@@ -46,7 +45,7 @@ const PagesPart = () => {
                 ? "d-block"
                 : ""
               : isMainDropdownOpen
-              ? "d-none"
+              ? "d-block"
               : ""
           }`}
         >
@@ -156,6 +155,17 @@ const PagesPart = () => {
                 <i className="fa-light fa-layer-group"></i>
               </span>
               <span className="sidebar-txt">BIRTH</span>
+            </NavLink>
+          </li>
+          <li className="sidebar-dropdown-item">
+            <NavLink
+              href="/openai/projects/rag/knowlwdgebase-chat"
+              className="sidebar-link"
+            >
+              <span className="nav-icon">
+                <i className="fa-light fa-layer-group"></i>
+              </span>
+              <span className="sidebar-txt">RAG Chatbot</span>
             </NavLink>
           </li>
         </ul>

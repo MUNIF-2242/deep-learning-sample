@@ -24,7 +24,7 @@ const OpenAILoginContent = () => {
     if (result?.error) {
       setError(result.error); // Display error message
     } else {
-      router.push("/aws/bedrock/knowledgebase/knowlwdgebase-chat"); // Redirect to protected page on success
+      router.push("/openai/projects/rag/knowlwdgebase-chat"); // Redirect to protected page on success
     }
   };
 

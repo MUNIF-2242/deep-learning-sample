@@ -640,7 +640,7 @@ const DigiContextProvider = ({ children }) => {
 
   // Retrieve the initial state from localStorage or set it to false
   const initialComponentState = {
-    isMainDropdownOpen: false,
+    isMainDropdownOpen: true,
     advance: false,
     multipleLevel: false,
     firstLevel: false,
