@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { audienceData, emailData } from "../data/Data";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 const DigiContext = createContext();
 
 const DigiContextProvider = ({ children }) => {
@@ -614,6 +613,7 @@ const DigiContextProvider = ({ children }) => {
           pages: false,
           component: false,
         });
+        console.log("apps part outside click");
       }
     };
 
@@ -771,6 +771,7 @@ const DigiContextProvider = ({ children }) => {
           pages: false,
           component: false,
         });
+        console.log("components part outside click");
       }
     };
 
@@ -793,7 +794,7 @@ const DigiContextProvider = ({ children }) => {
 
   // Pages part
   const initialPagesState = {
-    isMainDropdownOpen: true,
+    isMainDropdownOpen: false,
     isSubDropdownOpen: false,
     authentication: false,
     error: false,
@@ -940,6 +941,7 @@ const DigiContextProvider = ({ children }) => {
           pages: false,
           component: false,
         });
+        console.log("pages part outside click");
       }
     };
 
@@ -1883,31 +1885,6 @@ const DigiContextProvider = ({ children }) => {
   //     divElement.classList.add("light-theme");
   //   }
   // }, [isLightTheme]); // Depend on isLightTheme
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      const bodyElement = document.body;
-      const divElement = document.querySelector(".body-padding");
-
-      if (!isLightTheme) {
-        bodyElement.classList.remove("dark-theme");
-        divElement?.classList.remove("dark-theme");
-        bodyElement.classList.add("light-theme");
-        divElement?.classList.add("light-theme");
-      }
-    };
-
-    // Run once on mount
-    handleRouteChange();
-
-    // Also listen for route changes
-    router.events.on("routeChangeComplete", handleRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, [isLightTheme, router.events]);
   return (
     <DigiContext.Provider
       value={{

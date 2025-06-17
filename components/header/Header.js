@@ -43,7 +43,7 @@ const Header = () => {
                   src={`${
                     isLightTheme
                       ? "/assets/images/ai-projects-logo.png"
-                      : "/assets/images/ai-projects-logo.png"
+                      : "/assets/images/ai-projects-logo-dark.png"
                   }`}
                   alt="Logo"
                 />
@@ -51,7 +51,7 @@ const Header = () => {
             </div>
             <div className="logo-small">
               <Link href="/">
-                <img src="/assets/images/channels4_profile.jpg" alt="Logo" />
+                {/* <img src="/assets/images/channels4_profile.jpg" alt="Logo" /> */}
               </Link>
             </div>
           </div>

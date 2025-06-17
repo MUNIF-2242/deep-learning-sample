@@ -3,14 +3,10 @@ import React, { createContext, useState } from "react";
 export const RagChatbotContext = createContext();
 
 export const RagChatbotProvider = ({ children }) => {
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-  const [uploadedNidImageUrl, setUploadedNidImageUrl] = useState("");
-  const [uploadedTradeLicenseImageUrl, setUploadedTradeLicenseImageUrl] =
-    useState("");
+  const [uploadedPdfUrl, setUploadedPdfUrl] = useState("");
+
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  // const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,13 +22,9 @@ export const RagChatbotProvider = ({ children }) => {
   return (
     <RagChatbotContext.Provider
       value={{
-        uploadedImageUrl,
-        setUploadedImageUrl,
+        uploadedPdfUrl,
+        setUploadedPdfUrl,
         messages,
-        uploadedTradeLicenseImageUrl,
-        setUploadedTradeLicenseImageUrl,
-        setUploadedNidImageUrl,
-        uploadedNidImageUrl,
         handleSubmit,
         inputMessage,
         setInputMessage,

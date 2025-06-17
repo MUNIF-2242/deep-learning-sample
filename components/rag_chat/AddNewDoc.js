@@ -1,5 +1,5 @@
 import { RagChatbotContext } from "@/context/RagChatbotContext";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -7,14 +7,8 @@ import "sweetalert2/dist/sweetalert2.min.css";
 const MySwal = withReactContent(Swal);
 
 const AddNewDoc = () => {
-  const {
-    setUploadedImageUrl,
-    handleSubmit,
-    handleFileChange,
-    error,
-    result,
-    loading,
-  } = useContext(RagChatbotContext);
+  const { handleSubmit, handleFileChange, error, result, loading } =
+    useContext(RagChatbotContext);
 
   return (
     <>
