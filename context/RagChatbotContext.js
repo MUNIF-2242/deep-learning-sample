@@ -4,6 +4,7 @@ import withReactContent from "sweetalert2-react-content";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 const MySwal = withReactContent(Swal);
+const BASE_URL = "https://6e2zospe64.execute-api.us-east-1.amazonaws.com/prod/";
 
 export const RagChatbotContext = createContext();
 
@@ -13,6 +14,7 @@ export const RagChatbotProvider = ({ children }) => {
   const [uploadedPdfUrl, setUploadedPdfUrl] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [botResponseLoading, setBotResponseLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
 
@@ -24,25 +26,24 @@ export const RagChatbotProvider = ({ children }) => {
     setError("");
   };
 
-  const handleQuerySubmit = async (e) => {
+  const handleQuestionSubmit = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    const userMessage = { role: "user", content: inputMessage };
+    const question = inputMessage; // 🟡 create a local copy first
+    setInputMessage(""); // 🟢 immediately clear the input
+
+    const userMessage = { role: "user", content: question };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setInputMessage("");
-    setLoading(true);
+    setBotResponseLoading(true);
 
     console.log("📥 User Message:", userMessage);
     try {
-      const response = await fetch(
-        "https://ktfv5go9o2.execute-api.us-east-1.amazonaws.com/prod/ask",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: inputMessage }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }), // use local copy
+      });
 
       const data = await response.json();
       const botMessage = {
@@ -68,23 +69,20 @@ export const RagChatbotProvider = ({ children }) => {
         },
       });
     } finally {
-      setLoading(false);
+      setBotResponseLoading(false);
     }
   };
 
   // Call indexing endpoint
-  const handleEmbedding = async (pdfUrl) => {
+  const triggerEmbeddingJob = async (pdfUrl) => {
     try {
-      const res = await fetch(
-        "https://ktfv5go9o2.execute-api.us-east-1.amazonaws.com/prod/index",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ url: pdfUrl }),
-        }
-      );
+      const res = await fetch(`${BASE_URL}/index`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: pdfUrl }),
+      });
 
       const data = await res.json();
 
@@ -141,7 +139,7 @@ export const RagChatbotProvider = ({ children }) => {
   };
 
   // Handle file upload and trigger embedding
-  const handleSubmit = async (e) => {
+  const handlePdfUploadSubmit = async (e) => {
     e.preventDefault();
 
     if (selectedFiles.length === 0) {
@@ -159,13 +157,10 @@ export const RagChatbotProvider = ({ children }) => {
       setError("");
       setUploadedPdfUrl([]);
 
-      const res = await fetch(
-        "https://ktfv5go9o2.execute-api.us-east-1.amazonaws.com/prod/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const res = await fetch(`${BASE_URL}/upload`, {
+        method: "POST",
+        body: formData,
+      });
 
       const data = await res.json();
       setUploadPdfResponse(data);
@@ -194,7 +189,7 @@ export const RagChatbotProvider = ({ children }) => {
       // Index each uploaded document
       for (let i = 0; i < urls.length; i++) {
         console.log(`📥 Indexing file ${i + 1} of ${urls.length}`);
-        await handleEmbedding(urls[i]);
+        await triggerEmbeddingJob(urls[i]);
       }
     } catch (err) {
       console.error("❌ Upload failed:", err);
@@ -208,15 +203,17 @@ export const RagChatbotProvider = ({ children }) => {
     <RagChatbotContext.Provider
       value={{
         uploadedPdfUrl,
-        handleSubmit,
+        handlePdfUploadSubmit,
         loading,
         handleFileChange,
         error,
         uploadedPdfResponse,
-        handleEmbedding, // exposed for reuse elsewhere if needed
+        triggerEmbeddingJob,
         messages,
-        handleQuerySubmit,
+        handleQuestionSubmit,
         setInputMessage,
+        botResponseLoading,
+        inputMessage,
       }}
     >
       {children}

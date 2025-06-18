@@ -3,14 +3,14 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { RagChatbotContext } from "@/context/RagChatbotContext";
 
 const RagMessageArea = () => {
-  const { messages, loading } = useContext(RagChatbotContext);
+  const { messages, botResponseLoading } = useContext(RagChatbotContext);
   const scrollRef = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, loading]); // 👈 Add `loading` here too
+  }, [messages, botResponseLoading]);
 
   return (
     <div className="panel-body msg-area" id="my-cellibrity-chat-area">
@@ -93,7 +93,7 @@ const RagMessageArea = () => {
               }
               return null;
             })}
-          {loading && (
+          {botResponseLoading && (
             <div
               className="single-message"
               style={{ justifyContent: "flex-start", textAlign: "left" }}

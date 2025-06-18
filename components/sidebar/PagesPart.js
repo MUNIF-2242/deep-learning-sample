@@ -116,7 +116,7 @@ const PagesPart = () => {
               <span className="sidebar-txt">Talk with pdf</span>
             </NavLink>
           </li>
-          <li className="sidebar-dropdown-item">
+          {/* <li className="sidebar-dropdown-item">
             <NavLink
               href="/openai/projects/dalle/edit-image"
               className="sidebar-link"
@@ -126,7 +126,7 @@ const PagesPart = () => {
               </span>
               <span className="sidebar-txt">Edit image</span>
             </NavLink>
-          </li>
+          </li> */}
           <li className="sidebar-dropdown-item">
             <NavLink href="/mixed/og-app" className="sidebar-link">
               <span className="nav-icon">

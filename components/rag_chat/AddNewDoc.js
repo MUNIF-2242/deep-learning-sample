@@ -2,8 +2,13 @@ import React, { useContext } from "react";
 import { RagChatbotContext } from "@/context/RagChatbotContext";
 
 const AddNewDoc = () => {
-  const { handleSubmit, handleFileChange, error, loading, uploadedPdfUrl } =
-    useContext(RagChatbotContext);
+  const {
+    handlePdfUploadSubmit,
+    handleFileChange,
+    error,
+    loading,
+    uploadedPdfUrl,
+  } = useContext(RagChatbotContext);
 
   return (
     <div className="col-xxl-12 col-md-5">
@@ -12,7 +17,7 @@ const AddNewDoc = () => {
           <h5>Upload PDF</h5>
         </div>
         <div className="panel-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handlePdfUploadSubmit}>
             <div className="row g-3">
               <div className="col-12">
                 <input
@@ -43,18 +48,19 @@ const AddNewDoc = () => {
 
       {uploadedPdfUrl.length > 0 &&
         uploadedPdfUrl.map((url, index) => (
-          <div key={index}>
+          <>
             <div className="panel-header">
               <h5>Uploaded pdf url</h5>
             </div>
             <div className="panel-body">
               <div className="bg-success-subtle p-3 rounded">
-                <a href={url} target="_blank" rel="noopener noreferrer">
+                {/* <a href={url} target="_blank" rel="noopener noreferrer">
                   {url}
-                </a>
+                </a> */}
+                <p>{url}</p>
               </div>
             </div>
-          </div>
+          </>
         ))}
 
       {/* Show error */}
