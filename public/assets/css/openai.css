@@ -45,3 +45,12 @@
 .bedrock-custom-panel {
   width: 100% !important;
 }
+/* Global override for Swal in dark mode */
+
+.swal2-title {
+  color: #1e1e1e !important;
+}
+.custom-bg-success-subtle {
+  background-color: #2d893a !important;
+  color: #ffffff !important;
+}

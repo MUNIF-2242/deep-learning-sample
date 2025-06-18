@@ -37,7 +37,7 @@ const AddNewDoc = () => {
                     className="btn btn-primary"
                     disabled={loading}
                   >
-                    {loading ? "Uploading..." : "Upload"}
+                    {loading ? "Processing..." : "Upload"}
                   </button>
                 </div>
               </div>
@@ -46,20 +46,30 @@ const AddNewDoc = () => {
         </div>
       </div>
 
-      {uploadedPdfUrl.length > 0 &&
+      {/* {uploadedPdfUrl.length > 0 &&
         uploadedPdfUrl.map((url, index) => (
           <>
             <div className="panel-header">
               <h5>Uploaded pdf url</h5>
             </div>
-            <div className="panel-body">
-              <div className="bg-success-subtle p-3 rounded">
-                {/* <a href={url} target="_blank" rel="noopener noreferrer">
-                  {url}
-                </a> */}
+            <div className="panel-body ">
+              <div className="bg-success-subtle p-3 rounded custom-bg-success-subtle">
+               
                 <p>{url}</p>
               </div>
             </div>
+          </>
+        ))} */}
+
+      {uploadedPdfUrl.length > 0 &&
+        uploadedPdfUrl.map((url, index) => (
+          <>
+            <div className="panel-header">
+              <h5>Total index cost: $ {0.007}</h5>
+            </div>
+            {/* <div className="panel-body ">
+              <h5>Total index cost: $ {0.007}</h5>
+            </div> */}
           </>
         ))}
 

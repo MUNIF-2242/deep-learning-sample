@@ -18,7 +18,7 @@ const RagChatTopBar = () => {
           </button>
 
           <div className="part-txt">
-            <span className="user-name">RAG Chatbot</span>
+            <span className="user-name">Chat Interface</span>
           </div>
         </div>
         <div className="chatting-panel-top-btns">

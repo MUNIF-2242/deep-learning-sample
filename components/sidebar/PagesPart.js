@@ -15,6 +15,14 @@ const PagesPart = () => {
   } = useContext(DigiContext);
   const { isMainDropdownOpen } = pagesState;
 
+  // Helper function to determine if dropdown should be visible
+  const isDropdownVisible = () => {
+    if (layoutPosition.horizontal) {
+      return dropdownOpen.pages;
+    }
+    return isMainDropdownOpen;
+  };
+
   return (
     <>
       <li
@@ -40,16 +48,10 @@ const PagesPart = () => {
         </a>
         <ul
           className={`sidebar-link-group ${
-            layoutPosition.horizontal
-              ? dropdownOpen.pages
-                ? "d-block"
-                : ""
-              : isMainDropdownOpen
-              ? "d-block"
-              : ""
+            isDropdownVisible() ? "d-block" : "d-none"
           }`}
         >
-          <li className="sidebar-dropdown-item">
+          {/* <li className="sidebar-dropdown-item">
             <NavLink
               href="/openai/projects/pdf-book-summariser"
               className="sidebar-link"
@@ -93,7 +95,6 @@ const PagesPart = () => {
               <span className="sidebar-txt">Embeddings Similarity</span>
             </NavLink>
           </li>
-
           <li className="sidebar-dropdown-item">
             <NavLink
               href="/openai/projects/dalle/create-image"
@@ -116,23 +117,12 @@ const PagesPart = () => {
               <span className="sidebar-txt">Talk with pdf</span>
             </NavLink>
           </li>
-          {/* <li className="sidebar-dropdown-item">
-            <NavLink
-              href="/openai/projects/dalle/edit-image"
-              className="sidebar-link"
-            >
-              <span className="nav-icon">
-                <i className="fa-light fa-layer-group"></i>
-              </span>
-              <span className="sidebar-txt">Edit image</span>
-            </NavLink>
-          </li> */}
           <li className="sidebar-dropdown-item">
             <NavLink href="/mixed/og-app" className="sidebar-link">
               <span className="nav-icon">
                 <i className="fa-light fa-layer-group"></i>
               </span>
-              <span className="sidebar-txt">OG</span>
+              <span class="sidebar-txt">OG</span>
             </NavLink>
           </li>
           <li className="sidebar-dropdown-item">
@@ -156,77 +146,20 @@ const PagesPart = () => {
               </span>
               <span className="sidebar-txt">BIRTH</span>
             </NavLink>
-          </li>
+          </li> */}
           <li className="sidebar-dropdown-item">
             <NavLink
               href="/openai/projects/rag/knowlwdgebase-chat"
               className="sidebar-link"
             >
               <span className="nav-icon">
-                <i className="fa-light fa-layer-group"></i>
+                <i className="fa-light fa-comments-question-check"></i>
               </span>
-              <span className="sidebar-txt">RAG Chatbot</span>
+              <span className="sidebar-txt">RAG</span>
             </NavLink>
           </li>
         </ul>
       </li>
-      {/* <li
-        className="sidebar-item"
-        ref={
-          isExpanded ||
-          isNavExpanded.isSmall ||
-          layoutPosition.horizontal ||
-          (layoutPosition.twoColumn && isExpanded) ||
-          (layoutPosition.twoColumn && isSmallScreen)
-            ? mainPagesRef
-            : null
-        }
-      >
-        <a
-          role="button"
-          className={`sidebar-link-group-title has-sub ${
-            isMainDropdownOpen ? "show" : ""
-          }`}
-          onClick={toggleMainPagesDropdown}
-        >
-          Cloud Vision
-        </a>
-        <ul
-          className={`sidebar-link-group ${
-            layoutPosition.horizontal
-              ? dropdownOpen.pages
-                ? "d-block"
-                : ""
-              : isMainDropdownOpen
-              ? "d-none"
-              : ""
-          }`}
-        >
-     
-          <li className="sidebar-dropdown-item">
-            <NavLink
-              href="/cloudvision/text_detection/tin-certtificate"
-              className="sidebar-link"
-            >
-              <span className="nav-icon">
-                <i className="fa-light fa-layer-group"></i>
-              </span>
-              <span className="sidebar-txt">TIN Verify</span>
-            </NavLink>
-          </li>
-          <li className="sidebar-dropdown-item">
-            <NavLink
-              href="/cloudvision/text_detection/vehicle/number-plate"
-              className="sidebar-link"
-            >
-              <span className="nav-icon">
-                <i className="fa-light fa-layer-group"></i>
-              </span>
-              <span className="sidebar-txt">Vehicle Number Plate</span>
-            </NavLink>
-          </li>
-        </ul>
-      </li> */}
     </>
   );
 };

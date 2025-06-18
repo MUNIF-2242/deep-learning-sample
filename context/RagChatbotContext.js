@@ -13,10 +13,11 @@ export const RagChatbotProvider = ({ children }) => {
   const [uploadedPdfResponse, setUploadPdfResponse] = useState(null);
   const [uploadedPdfUrl, setUploadedPdfUrl] = useState([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [botResponseLoading, setBotResponseLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [botResponseLoading, setBotResponseLoading] = useState(false);
 
   // Handle file selection
   const handleFileChange = (event) => {

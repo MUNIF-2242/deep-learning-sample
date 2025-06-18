@@ -794,7 +794,7 @@ const DigiContextProvider = ({ children }) => {
 
   // Pages part
   const initialPagesState = {
-    isMainDropdownOpen: false,
+    isMainDropdownOpen: true,
     isSubDropdownOpen: false,
     authentication: false,
     error: false,
