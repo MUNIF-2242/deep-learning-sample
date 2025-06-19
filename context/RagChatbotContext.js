@@ -9,6 +9,7 @@ const BASE_URL = "https://6e2zospe64.execute-api.us-east-1.amazonaws.com/prod/";
 export const RagChatbotContext = createContext();
 
 export const RagChatbotProvider = ({ children }) => {
+  const [uploadPhase, setUploadPhase] = useState("idle"); // "idle", "uploading", "indexing"
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedPdfResponse, setUploadPdfResponse] = useState(null);
   const [uploadedPdfUrl, setUploadedPdfUrl] = useState([]);
@@ -25,6 +26,7 @@ export const RagChatbotProvider = ({ children }) => {
     setSelectedFiles(files);
     setUploadedPdfUrl([]);
     setError("");
+    setUploadPhase("idle");
   };
 
   const handleQuestionSubmit = async (e) => {
@@ -157,6 +159,7 @@ export const RagChatbotProvider = ({ children }) => {
       setLoading(true);
       setError("");
       setUploadedPdfUrl([]);
+      setUploadPhase("uploading");
 
       const res = await fetch(`${BASE_URL}/upload`, {
         method: "POST",
@@ -168,6 +171,7 @@ export const RagChatbotProvider = ({ children }) => {
 
       if (!res.ok || data.successfulUploads === 0) {
         setError(data.message || "Upload failed");
+        setUploadPhase("idle");
         return;
       }
 
@@ -186,7 +190,8 @@ export const RagChatbotProvider = ({ children }) => {
           popup: "colored-toast",
         },
       });
-
+      setUploadPhase("indexing");
+      // setIndexingProgress({ current: 0, total: urls.length });
       // Index each uploaded document
       for (let i = 0; i < urls.length; i++) {
         console.log(`📥 Indexing file ${i + 1} of ${urls.length}`);
@@ -197,6 +202,19 @@ export const RagChatbotProvider = ({ children }) => {
       setError("Something went wrong while uploading");
     } finally {
       setLoading(false);
+      setUploadPhase("idle");
+    }
+  };
+
+  // Get button text based on current phase
+  const getButtonText = () => {
+    switch (uploadPhase) {
+      case "uploading":
+        return "Uploading...";
+      case "indexing":
+        return `Indexing...`;
+      default:
+        return "Upload";
     }
   };
 
@@ -215,6 +233,7 @@ export const RagChatbotProvider = ({ children }) => {
         setInputMessage,
         botResponseLoading,
         inputMessage,
+        getButtonText,
       }}
     >
       {children}

@@ -8,6 +8,9 @@ const AddNewDoc = () => {
     error,
     loading,
     uploadedPdfUrl,
+    uploadPhase,
+    indexingProgress,
+    getButtonText,
   } = useContext(RagChatbotContext);
 
   return (
@@ -37,43 +40,41 @@ const AddNewDoc = () => {
                     className="btn btn-primary"
                     disabled={loading}
                   >
-                    {loading ? "Processing..." : "Upload"}
+                    {getButtonText()}
                   </button>
                 </div>
               </div>
             </div>
           </form>
+
+          {/* Progress indicator for indexing */}
+          {uploadPhase === "indexing" && (
+            <div className="mt-3">
+              <div className="d-flex justify-content-between align-items-center mb-2">
+                <small className="text-muted">Indexing documents...</small>
+                <small className="text-muted">
+                  {indexingProgress.current}/{indexingProgress.total}
+                </small>
+              </div>
+              <div className="progress" style={{ height: "6px" }}>
+                <div
+                  className="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar"
+                  style={{
+                    width: `${
+                      (indexingProgress.current / indexingProgress.total) * 100
+                    }%`,
+                  }}
+                  aria-valuenow={indexingProgress.current}
+                  aria-valuemin="0"
+                  aria-valuemax={indexingProgress.total}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* {uploadedPdfUrl.length > 0 &&
-        uploadedPdfUrl.map((url, index) => (
-          <>
-            <div className="panel-header">
-              <h5>Uploaded pdf url</h5>
-            </div>
-            <div className="panel-body ">
-              <div className="bg-success-subtle p-3 rounded custom-bg-success-subtle">
-               
-                <p>{url}</p>
-              </div>
-            </div>
-          </>
-        ))} */}
-
-      {uploadedPdfUrl.length > 0 &&
-        uploadedPdfUrl.map((url, index) => (
-          <>
-            <div className="panel-header">
-              <h5>Total index cost: $ {0.007}</h5>
-            </div>
-            {/* <div className="panel-body ">
-              <h5>Total index cost: $ {0.007}</h5>
-            </div> */}
-          </>
-        ))}
-
-      {/* Show error */}
       {error && (
         <div className="panel mt-4">
           <div className="panel-header">
