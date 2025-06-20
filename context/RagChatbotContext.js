@@ -5,8 +5,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 const MySwal = withReactContent(Swal);
 
-const BASE_URL =
-  "https://i272k6p9tc.execute-api.us-east-1.amazonaws.com/prod/index";
+const BASE_URL = "https://i272k6p9tc.execute-api.us-east-1.amazonaws.com/prod";
 
 export const RagChatbotContext = createContext();
 
